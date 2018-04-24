@@ -9,18 +9,18 @@
 
 
 
-* [version1] 终端client, server通信， 单进程。
-* [version2] 终端client, server通信， 多进程处理。添加warp.c，容错处理文件。
-* [version3] 终端client，server通信，多线程。
-* [version4] 改变server服务器为守护进程，不依赖于终端。
-* [version5] 浏览器和server交互，http解析，支持get、post方式，处理静态文件(包括html, css, js, 图片等)。
-* [version6] 浏览器和server交互，支持php文件，用cgi的方式处理php。
-* [version7] http长连接处理，心跳包监测机制。
-* [version8] 支持php-fpm
-* [version9] 添加配置文件
-* [version10] 支持日志存储，查询。
-* [version11] 多路io复用epoll (select, poll, epoll )，实现方式差不多，直接用epoll，性能最高。
-* [version12] 引入线程池。
+* [version1]：终端client, server通信， 单进程。
+* [version2]：终端client, server通信， 多进程处理。添加warp.c，容错处理文件。
+* [version3]：终端client，server通信，多线程。
+* [version4]：改变server服务器为守护进程，不依赖于终端。
+* [version5]：浏览器和server交互，http解析，支持get、post方式，处理静态文件(包括html, css, js, 图片等)。
+* [version6]：浏览器和server交互，支持php文件，用cgi的方式处理php。
+* [version7]：http长连接处理，心跳包监测机制。
+* [version8]：支持php-fpm
+* [version9]：添加配置文件
+* [version10]：支持日志存储，查询。
+* [version11]：多路io复用epoll (select, poll, epoll )，实现方式差不多，直接用epoll，性能最高。
+* [version12]：引入线程池。
 
 
 [version1]: https://github.com/choyda/choyda-webserver/tree/master/version1  "version1"
