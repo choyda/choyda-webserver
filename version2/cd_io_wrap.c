@@ -5,8 +5,7 @@
 
 #include "cd_std_wrap.h"
 
-ssize_t cd_read(int fd, void *ptr, size_t nbytes)
-{
+ssize_t cd_read(int fd, void *ptr, size_t nbytes){
     ssize_t n;
 again:
     if ( (n = read(fd, ptr, nbytes)) == -1) {

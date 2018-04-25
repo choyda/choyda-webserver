@@ -29,7 +29,7 @@ int cd_bind(int fd, const struct sockaddr *sa, socklen_t salen)
     return n;
 }
 
-int cd_onnect(int fd, const struct sockaddr *sa, socklen_t salen)
+int cd_connect(int fd, const struct sockaddr *sa, socklen_t salen)
 {
     int n;
 
