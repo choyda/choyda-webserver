@@ -8,7 +8,7 @@
 
 /*
  * DESCRIPTION:
- * 终端下单进程客户端和服务器端交互，不能开启多个客户端。
+ * Linux命令行下单进程客户端和服务器端交互，不能开启多个客户端。
  */
 
 #define SERV_PORT 9999 //定义服务器端口
@@ -18,7 +18,7 @@ int main(int argc, char *argv[]){
 
     /*定义使用中的变量*/
     int sfd, cfd;                               //服务器端和客户端的socket描述符
-    char buf[SIZEBUF];                          //读取写入buf的大小
+    char buf[SIZEBUF];                          //读取写入的buf
     int len, i;                                 //读取长度和循环因子i
     struct sockaddr_in serv_addr, cli_addr;     //客户端和服务器端bind结构体
     char clie_ip[SIZEBUF], serv_ip[SIZEBUF];    //保存打印信息ip的字符数组
@@ -45,7 +45,7 @@ int main(int argc, char *argv[]){
     serv_addr.sin_addr.s_addr = INADDR_ANY;     //本机的任何网卡
     serv_addr.sin_port = htons(SERV_PORT);      //程序端口号，本地转网络字节序【为0，则系统自动分配，使用getsockname函数配合】
 
-    /*初始化一个地址结构 man 7 ip 查看对应信息*/
+    /*初始化一个地址结构*/
     if(bind(sfd, (struct sockaddr *)&serv_addr, serv_len) == -1){
         perror("fail to bind socket");
         exit(1);
