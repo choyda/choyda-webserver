@@ -1,4 +1,4 @@
-####本节重要提示： 
+#### 本节重要提示： 
 万事开头难，socket编程开始，需要介绍一些基本概念和操作原理，本章节描述的比较多，
 基本概念和原理会用代码图片等简单的方式描述出来，主要考虑一些新手朋友，不会牵扯太深层的东西，更底层的操作如socket_create在内核中的创建过程等，有需要我会点出来，由于底层代码较多，思想比较复杂，故不予列出，以后会单独针对每个知识点整理出详细解析的文章，如想彻底了解，请读者借阅其他资料(man文档，APUE等，深入理解计算机操作系统、TCP/IP协议详解等) 感谢！  
 
@@ -39,7 +39,7 @@ struct task_struct {
 	…
 };
 ```
-![](/Users/caida/Pictures/github-picture/file_struct.gif)
+![](https://github.com/choyda/choyda-webserver/master/github-picture/file_struct.gif)
 其中files_struct结构体的成员files为打开文件描述符表，定义如下：
 
 ```
