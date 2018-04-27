@@ -39,7 +39,7 @@ struct task_struct {
 	…
 };
 ```
-![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/file_struct.gif)
+![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/file_struct.gif)  
 其中files_struct结构体的成员files为打开文件描述符表，定义如下：
 
 ```
@@ -50,7 +50,7 @@ struct files_struct {
 	struct file __rcu * fd_array[NR_OPEN_DEFAULT]; //文件描述符和文件的对应关系
 };
 ```
-![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/file_struct1.gif)  
+![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/file_struct1.gif)    
 其成员fdtab为关键数据成员，定义如下：
 
 ```
@@ -68,7 +68,7 @@ struct fdtable {
 ```
 
 
-![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/file_struct2.gif)
+![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/file_struct2.gif)   
 配图来自：http://www.51testing.com/html/00/n-832100-2.html
 
 -----------
