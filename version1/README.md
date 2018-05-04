@@ -7,40 +7,37 @@ TCP三次握手建立连接，四次握手断开连接，基本socket函数背�
 
 Linux文件类型：  
 
-<style type="text/css">
-td{text-align:center;}
-th{width:400px;}
-</style>
+
 <table>
-	<th>文件类型标识</th>
-	<th>文件类型</th>
+	<th width='400px'>文件类型标识</th>
+	<th width='400px'>文件类型</th>
 	<tr>
-		<td> - </td>
-		<td>普通文件</td>
+		<td align="center"> - </td>
+		<td align="center">普通文件</td>
 	</tr>
 	<tr>
-		<td>d</td>
-		<td>目录</td>
+		<td align="center">d</td>
+		<td align="center">目录</td>
 	</tr>
 	<tr>
-		<td>|</td>
-		<td>符号链接</td>
+		<td align="center">|</td>
+		<td align="center">符号链接</td>
 	</tr>
 	<tr>
-		<td>s（伪文件）</td>
-		<td>套接字</td>
+		<td align="center">s（伪文件）</td>
+		<td align="center">套接字</td>
 	</tr>
 	<tr>
-		<td>b（伪文件）</td>
-		<td>块设备</td>
+		<td align="center">b（伪文件）</td>
+		<td align="center">块设备</td>
 	</tr>
 	<tr>
-		<td>c（伪文件）</td>
-		<td>字符设备</td>
+		<td align="center">c（伪文件）</td>
+		<td align="center">字符设备</td>
 	</tr>
 	<tr>
-		<td>p（伪文件）</td>
-		<td>管道</td>
+		<td align="center">p（伪文件）</td>
+		<td align="center">管道</td>
 	</tr>
 </table>
 
