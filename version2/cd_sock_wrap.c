@@ -5,8 +5,17 @@
 #include <sys/socket.h>
 #include "cd_std_wrap.h"
 
-/*accept函数处理，错误处理*/
-int cd_accept(int fd, struct sockaddr *sa, socklen_t *salenptr)
+/*socket常用函数错误处理*/
+int Socket(int family, int type, int protocol)
+{
+	int n;
+	if ((n = socket(family, type, protocol)) < 0)
+		cd_perr_exit("socket error");
+
+	return n;
+}
+
+int Accept(int fd, struct sockaddr *sa, socklen_t *salenptr)
 {
 	int n;
 again:
@@ -19,7 +28,7 @@ again:
 	return n;
 }
 
-int cd_bind(int fd, const struct sockaddr *sa, socklen_t salen)
+int Bind(int fd, const struct sockaddr *sa, socklen_t salen)
 {
     int n;
 
@@ -29,7 +38,7 @@ int cd_bind(int fd, const struct sockaddr *sa, socklen_t salen)
     return n;
 }
 
-int cd_connect(int fd, const struct sockaddr *sa, socklen_t salen)
+int Connect(int fd, const struct sockaddr *sa, socklen_t salen)
 {
     int n;
 
@@ -39,7 +48,7 @@ int cd_connect(int fd, const struct sockaddr *sa, socklen_t salen)
     return n;
 }
 
-int cd_listen(int fd, int backlog)
+int Listen(int fd, int backlog)
 {
     int n;
 
@@ -49,15 +58,7 @@ int cd_listen(int fd, int backlog)
     return n;
 }
 
-int cd_socket(int family, int type, int protocol)
-{
-	int n;
 
-	if ((n = socket(family, type, protocol)) < 0)
-		cd_perr_exit("socket error");
-
-	return n;
-}
 
 /*端口复用，TIME_WAIT等待问题*/
 int cd_port_reuse(int fd){

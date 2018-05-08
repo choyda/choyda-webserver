@@ -12,16 +12,15 @@
  */
 
 #define SERV_PORT 9999 //定义服务器端口
-#define SIZEBUF 1024   //buf大小
 
 int main(int argc, char *argv[]){
 
     /*定义使用中的变量*/
     int sfd, cfd;                               //服务器端和客户端的socket描述符
-    char buf[SIZEBUF];                          //读取写入的buf
+    char buf[BUFSIZ];                           //读取写入的buf
     int len, i;                                 //读取长度和循环因子i
     struct sockaddr_in serv_addr, cli_addr;     //客户端和服务器端bind结构体
-    char clie_ip[SIZEBUF], serv_ip[SIZEBUF];    //保存打印信息ip的字符数组
+    char cli_ip[BUFSIZ], serv_ip[BUFSIZ];       //保存打印信息ip的字符数组
 
     /*创建socket描述符*/
     sfd = socket(AF_INET, SOCK_STREAM, 0);      //最后一个参数0，内核会自动推演出使用的协议
@@ -66,7 +65,7 @@ int main(int argc, char *argv[]){
 
     /*打印一些交互信息*/
     printf("client IP:%s\tport:%d\t%d\n",
-           inet_ntop(AF_INET, &cli_addr.sin_addr.s_addr, clie_ip, sizeof(clie_ip)),
+           inet_ntop(AF_INET, &cli_addr.sin_addr.s_addr, cli_ip, sizeof(cli_ip)),
            ntohs(cli_addr.sin_port), cfd);
     printf("server IP:%s\tport:%d\t%d\n",
            inet_ntop(AF_INET, &serv_addr.sin_addr.s_addr, serv_ip, sizeof(serv_ip)),
@@ -75,7 +74,7 @@ int main(int argc, char *argv[]){
     /*读写文件描述符*/
     while(1){
         /*读取客户端发送数据*/
-        len = read(cfd, buf, sizeof(SIZEBUF));
+        len = read(cfd, buf, sizeof(BUFSIZ));
         write(STDOUT_FILENO, buf, len);
 
         /*处理客户端数据*/

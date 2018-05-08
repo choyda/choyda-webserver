@@ -60,7 +60,7 @@ int cd_socket(int family, int type, int protocol)
 }
 
 /*端口复用，TIME_WAIT等待问题*/
-int cd_port_reuse(int fd){
+void rio_port_reuse(int fd){
 	int opt = 1;
 	if(setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, (const void *)&opt, sizeof(opt)) == -1){
 		cd_perr_exit("setsockopt error");

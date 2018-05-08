@@ -36,10 +36,10 @@ int main(int argc, char *argv[]){
     int pid;                                    //进程id
 
     /*创建socket描述符*/
-    sfd = cd_socket(AF_INET, SOCK_STREAM, 0);      //最后一个参数0，内核会自动推演出使用的协议
+    sfd = Socket(AF_INET, SOCK_STREAM, 0);      //最后一个参数0，内核会自动推演出使用的协议
 
     /*端口复用，TIME_WAIT等待问题*/
-    cd_port_reuse(sfd);
+    rio_port_reuse(sfd);
 
     /*初始化号结构体，用于子进程回收发送信号，也可以用signal函数代替，但是不建议。*/
     signal_act.sa_handler = act_sin_fun;        //注册信号处理函数
@@ -56,10 +56,10 @@ int main(int argc, char *argv[]){
     serv_addr.sin_port = htons(SERV_PORT);      //程序端口号，本地转网络字节序【为0，则系统自动分配，使用getsockname函数配合】
 
     /*初始化一个地址结构 man 7 ip 查看对应信息*/
-    cd_bind(sfd, (struct sockaddr *)&serv_addr, serv_len);
+    Bind(sfd, (struct sockaddr *)&serv_addr, serv_len);
 
     /*设定链接上限,注意此处不阻塞*/
-    cd_listen(sfd, 10);                            //同一时刻允许向服务器发起链接请求的数量
+    Listen(sfd, 10);                            //同一时刻允许向服务器发起链接请求的数量
 
 
     /*打印一些交互信息*/
@@ -71,10 +71,10 @@ int main(int argc, char *argv[]){
            ntohs(serv_addr.sin_port), sfd);
 
     while (1) {
-        cfd = cd_accept(sfd, (struct sockaddr *)&cli_addr, &cli_len); //ctrl+c 注意ECONNABORTED这个错误
+        cfd = Accept(sfd, (struct sockaddr *)&cli_addr, &cli_len); //ctrl+c 注意ECONNABORTED这个错误
         pid = fork(); //创建子进程
         if (pid == 0) {
-            cd_close(sfd);//如果是子进程，关闭监听描述符，因为子进程不需要
+            Close(sfd);//如果是子进程，关闭监听描述符，因为子进程不需要
             while (1) {
                 /*读取客户端发送数据*/
                 len = cd_read(cfd, buf, sizeof(SIZEBUF));
