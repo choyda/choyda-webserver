@@ -7,15 +7,19 @@
 #include <unistd.h>
 #include <signal.h>
 
-//×Ô¼º¶¨ÒåµÄº¯Êı¿âÍ·ÎÄ¼ş
+//è‡ªå·±å®šä¹‰çš„å‡½æ•°åº“å¤´æ–‡ä»¶
 #include "cd_sock_wrap.h"
 #include "cd_io_wrap.h"
+#include "cd_std_wrap.h"
 
+/*
+ * DESCRIPTION:
+ * å•è¿›ç¨‹çš„å®¢æˆ·ç«¯äº¤äº’ï¼Œä¸èƒ½å¼€å¯å¤šä¸ªå®¢æˆ·ç«¯ï¼Œä¸‹ä¸ªç‰ˆæœ¬å°†æ·»åŠ å¤šè¿›ç¨‹
+ * æ·»åŠ ç³»ç»Ÿå‡½æ•°å‡ºé”™åŒ…è£¹å‡½æ•°ï¼Œç»Ÿä¸€ç”¨å¤§å†™å¼€å¤´è¡¨ç¤ºï¼Œå¦‚ï¼šsocket()-->Socket()
+ * è‡ªå®šä¹‰å‡½æ•°ç»Ÿä¸€ç”¨rio_å¼€å¤´ã€‚Robust io å¥å£®çš„ioæ“ä½œ
+ */
 
-/*¶à½ø³Ì¿Í»§¶Ë½»»¥£¬¿ÉÒÔÍ¬Ê±Ö§³Ö¶à¸ö¿Í»§¶ËÁ¬½Ó*/
-
-#define SERV_PORT 9999 //¶¨Òå·şÎñÆ÷¶Ë¿Ú
-#define SIZEBUF 1024 //buf´óĞ¡
+#define SERV_PORT 9999 //å®šä¹‰æœåŠ¡å™¨ç«¯å£
 
 void act_sin_fun(int sin_num)
 {
@@ -26,78 +30,77 @@ void act_sin_fun(int sin_num)
 
 int main(int argc, char *argv[]){
 
-    /*¶¨ÒåÊ¹ÓÃÖĞµÄ±äÁ¿*/
-    int sfd, cfd;                               //·şÎñÆ÷¶ËºÍ¿Í»§¶ËµÄsocketÃèÊö·û
-    char buf[SIZEBUF];                          //¶ÁÈ¡Ğ´ÈëbufµÄ´óĞ¡
-    int len, i;                                 //¶ÁÈ¡³¤¶ÈºÍÑ­»·Òò×Ó
-    struct sockaddr_in serv_addr, cli_addr;     //¿Í»§¶ËºÍ·şÎñÆ÷¶Ëbind½á¹¹Ìå
-    char clie_ip[SIZEBUF], serv_ip[SIZEBUF];    //±£´æ´òÓ¡ĞÅÏ¢ipµÄ×Ö·ûÊı×é
-    struct sigaction signal_act;                //´¦ÀíĞÅºÅµÄ½á¹¹Ìå
-    int pid;                                    //½ø³Ìid
+    /*å®šä¹‰ä½¿ç”¨ä¸­çš„å˜é‡*/
+    int sfd, cfd;                               //æœåŠ¡å™¨ç«¯å’Œå®¢æˆ·ç«¯çš„socketæè¿°ç¬¦
+    char buf[BUFSIZ];                           //è¯»å–å†™å…¥bufçš„å¤§å°
+    int len, i;                                 //è¯»å–é•¿åº¦å’Œå¾ªç¯å› å­
+    struct sockaddr_in serv_addr, cli_addr;     //å®¢æˆ·ç«¯å’ŒæœåŠ¡å™¨ç«¯bindç»“æ„ä½“
+    char cli_ip[BUFSIZ], serv_ip[BUFSIZ];       //ä¿å­˜æ‰“å°ä¿¡æ¯ipçš„å­—ç¬¦æ•°ç»„
+    struct sigaction signal_act;                //å¤„ç†ä¿¡å·çš„ç»“æ„ä½“
+    pid_t pid;                                    //è¿›ç¨‹id
 
-    /*´´½¨socketÃèÊö·û*/
-    sfd = Socket(AF_INET, SOCK_STREAM, 0);      //×îºóÒ»¸ö²ÎÊı0£¬ÄÚºË»á×Ô¶¯ÍÆÑİ³öÊ¹ÓÃµÄĞ­Òé
+    /*åˆ›å»ºsocketæè¿°ç¬¦*/
+    sfd = Socket(AF_INET, SOCK_STREAM, 0);      //æœ€åä¸€ä¸ªå‚æ•°0ï¼Œå†…æ ¸ä¼šè‡ªåŠ¨æ¨æ¼”å‡ºä½¿ç”¨çš„åè®®
 
-    /*¶Ë¿Ú¸´ÓÃ£¬TIME_WAITµÈ´ıÎÊÌâ*/
-    rio_port_reuse(sfd);
+    rio_port_reuse(sfd);                        //ç«¯å£å¤ç”¨ï¼ŒTIME_WAITç­‰å¾…é—®é¢˜
 
-    /*³õÊ¼»¯ºÅ½á¹¹Ìå£¬ÓÃÓÚ×Ó½ø³Ì»ØÊÕ·¢ËÍĞÅºÅ£¬Ò²¿ÉÒÔÓÃsignalº¯Êı´úÌæ£¬µ«ÊÇ²»½¨Òé¡£*/
-    signal_act.sa_handler = act_sin_fun;        //×¢²áĞÅºÅ´¦Àíº¯Êı
-    sigemptyset(&signal_act.sa_mask);           //Çå¿ÕĞÅºÅµÄmask±í
-    signal_act.sa_flags = 0;                    //Í¨³£ÉèÖÃÎª0£¬±íÊ¹ÓÃÄ¬ÈÏÊôĞÔ¡£
-    sigaction(SIGCHLD, &signal_act, NULL);      //Òª´¦ÀíµÄĞÅºÅ,SIGCHLD ´¦Àí×Ó½ø³ÌÍË³öµÄ
+    /*åˆå§‹åŒ–å·ç»“æ„ä½“ï¼Œç”¨äºå­è¿›ç¨‹å›æ”¶å‘é€ä¿¡å·ï¼Œä¹Ÿå¯ä»¥ç”¨signalå‡½æ•°ä»£æ›¿ï¼Œä½†æ˜¯ä¸å»ºè®®ã€‚*/
+    signal_act.sa_handler = act_sin_fun;        //æ³¨å†Œä¿¡å·å¤„ç†å‡½æ•°
+    sigemptyset(&signal_act.sa_mask);           //æ¸…ç©ºä¿¡å·çš„maskè¡¨
+    signal_act.sa_flags = 0;                    //é€šå¸¸è®¾ç½®ä¸º0ï¼Œè¡¨ä½¿ç”¨é»˜è®¤å±æ€§ã€‚
+    sigaction(SIGCHLD, &signal_act, NULL);      //è¦å¤„ç†çš„ä¿¡å·,SIGCHLD å¤„ç†å­è¿›ç¨‹é€€å‡ºçš„
 
-    /*°ó¶¨·şÎñÆ÷µØÖ·½á¹¹*/
-    socklen_t serv_len, cli_len;                //½á¹¹Ìå³¤¶È
-    serv_len = sizeof(serv_addr);               //»ñÈ¡½á¹¹Ìå³¤¶È
-    memset(&serv_addr, 0, serv_len);            //Çå¿Õ½á¹¹Ìå
-    serv_addr.sin_family = AF_INET;             //Ê¹ÓÃµÄĞ­Òé×å
-    serv_addr.sin_addr.s_addr = INADDR_ANY;     //±¾»úµÄÈÎºÎÍø¿¨
-    serv_addr.sin_port = htons(SERV_PORT);      //³ÌĞò¶Ë¿ÚºÅ£¬±¾µØ×ªÍøÂç×Ö½ÚĞò¡¾Îª0£¬ÔòÏµÍ³×Ô¶¯·ÖÅä£¬Ê¹ÓÃgetsocknameº¯ÊıÅäºÏ¡¿
+    /*ç»‘å®šæœåŠ¡å™¨åœ°å€ç»“æ„*/
+    socklen_t serv_len, cli_len;                //ç»“æ„ä½“é•¿åº¦
+    serv_len = sizeof(serv_addr);               //è·å–ç»“æ„ä½“é•¿åº¦
+    memset(&serv_addr, 0, serv_len);            //æ¸…ç©ºç»“æ„ä½“
+    serv_addr.sin_family = AF_INET;             //ä½¿ç”¨çš„åè®®æ—
+    serv_addr.sin_addr.s_addr = INADDR_ANY;     //æœ¬æœºçš„ä»»ä½•ç½‘å¡
+    serv_addr.sin_port = htons(SERV_PORT);      //ç¨‹åºç«¯å£å·ï¼Œæœ¬åœ°è½¬ç½‘ç»œå­—èŠ‚åºã€ä¸º0ï¼Œåˆ™ç³»ç»Ÿè‡ªåŠ¨åˆ†é…ï¼Œä½¿ç”¨getsocknameå‡½æ•°é…åˆã€‘
 
-    /*³õÊ¼»¯Ò»¸öµØÖ·½á¹¹ man 7 ip ²é¿´¶ÔÓ¦ĞÅÏ¢*/
+    /*åˆå§‹åŒ–ä¸€ä¸ªåœ°å€ç»“æ„ man 7 ip æŸ¥çœ‹å¯¹åº”ä¿¡æ¯*/
     Bind(sfd, (struct sockaddr *)&serv_addr, serv_len);
 
-    /*Éè¶¨Á´½ÓÉÏÏŞ,×¢Òâ´Ë´¦²»×èÈû*/
-    Listen(sfd, 10);                            //Í¬Ò»Ê±¿ÌÔÊĞíÏò·şÎñÆ÷·¢ÆğÁ´½ÓÇëÇóµÄÊıÁ¿
+    /*è®¾å®šé“¾æ¥ä¸Šé™,æ³¨æ„æ­¤å¤„ä¸é˜»å¡*/
+    Listen(sfd, 10);                            //åŒä¸€æ—¶åˆ»å…è®¸å‘æœåŠ¡å™¨å‘èµ·é“¾æ¥è¯·æ±‚çš„æ•°é‡
 
 
-    /*´òÓ¡Ò»Ğ©½»»¥ĞÅÏ¢*/
+    /*æ‰“å°ä¸€äº›äº¤äº’ä¿¡æ¯*/
     printf("client IP:%s\tport:%d\t%d\n",
-           inet_ntop(AF_INET, &cli_addr.sin_addr.s_addr, clie_ip, sizeof(clie_ip)),
+           inet_ntop(AF_INET, &cli_addr.sin_addr.s_addr, cli_ip, sizeof(cli_ip)),
            ntohs(cli_addr.sin_port), cfd);
     printf("server IP:%s\tport:%d\t%d\n",
            inet_ntop(AF_INET, &serv_addr.sin_addr.s_addr, serv_ip, sizeof(serv_ip)),
            ntohs(serv_addr.sin_port), sfd);
 
     while (1) {
-        cfd = Accept(sfd, (struct sockaddr *)&cli_addr, &cli_len); //ctrl+c ×¢ÒâECONNABORTEDÕâ¸ö´íÎó
-        pid = fork(); //´´½¨×Ó½ø³Ì
+        cfd = Accept(sfd, (struct sockaddr *)&cli_addr, &cli_len); //ctrl+c æ³¨æ„ECONNABORTEDè¿™ä¸ªé”™è¯¯
+        pid = Fork(); //åˆ›å»ºå­è¿›ç¨‹
         if (pid == 0) {
-            Close(sfd);//Èç¹ûÊÇ×Ó½ø³Ì£¬¹Ø±Õ¼àÌıÃèÊö·û£¬ÒòÎª×Ó½ø³Ì²»ĞèÒª
+            Close(sfd);//å¦‚æœæ˜¯å­è¿›ç¨‹ï¼Œå…³é—­ç›‘å¬æè¿°ç¬¦ï¼Œå› ä¸ºå­è¿›ç¨‹ä¸éœ€è¦
             while (1) {
-                /*¶ÁÈ¡¿Í»§¶Ë·¢ËÍÊı¾İ*/
-                len = cd_read(cfd, buf, sizeof(SIZEBUF));
-                if(len == 0){ //Èç¹ûÊÇ0 ±íÊ¾¿Í»§¶Ë¹Ø±Õsocket
+                /*è¯»å–å®¢æˆ·ç«¯å‘é€æ•°æ®*/
+                len = rio_read(cfd, buf, sizeof(BUFSIZ));
+                if(len == 0){ //å¦‚æœæ˜¯0 è¡¨ç¤ºå®¢æˆ·ç«¯å…³é—­socket
                     break;
                 }
-                cd_write(STDOUT_FILENO, buf, len);
+                rio_write(STDOUT_FILENO, buf, len);
 
-                /*´¦Àí¿Í»§¶ËÊı¾İ*/
+                /*å¤„ç†å®¢æˆ·ç«¯æ•°æ®*/
                 for (i = 0; i < len; i++) {
                     buf[i] = toupper(buf[i]);
                 }
 
-                /*´¦ÀíÍêÊı¾İ»ØĞ´¸ø¿Í»§¶Ë*/
-                cd_write(cfd, buf, len);
+                /*å¤„ç†å®Œæ•°æ®å›å†™ç»™å®¢æˆ·ç«¯*/
+                rio_write(cfd, buf, len);
             }
 
-            cd_close(cfd); //¶ÁĞ´Íê±Ï¹Ø±Õ¿Í»§¶ËÃèÊö·û
+            Close(cfd); //è¯»å†™å®Œæ¯•å…³é—­å®¢æˆ·ç«¯æè¿°ç¬¦
             return 0;
-        }else if(pid > 0){ //Èç¹ûÊÇ¸¸½ø³Ì£¬¹Ø±Õ¿Í»§¶ËÃèÊö·û£¬¼ÌĞø×èÈûaccept,»ñÈ¡¿Í»§¶ËÃèÊö·û
-            cd_close(cfd);
+        }else if(pid > 0){ //å¦‚æœæ˜¯çˆ¶è¿›ç¨‹ï¼Œå…³é—­å®¢æˆ·ç«¯æè¿°ç¬¦ï¼Œç»§ç»­é˜»å¡accept,è·å–å®¢æˆ·ç«¯æè¿°ç¬¦
+            Cclose(cfd);
         }else{
-            exit(1); //Èç¹ûÊÇforkÊ§°ÜÖ±½ÓÍË³ö
+            exit(1); //å¦‚æœæ˜¯forkå¤±è´¥ç›´æ¥é€€å‡º
         }
     }
     return 0;

@@ -10,7 +10,7 @@ ssize_t Read(int fd, void *ptr, size_t nbytes)
     ssize_t n;
 again:
     if ( (n = read(fd, ptr, nbytes)) == -1) {
-        if (errno == EINTR) { //以下均是慢速系统调用的EINTR判断
+        if (errno == EINTR) { //浠ヤ笅鍧囨槸鎱㈤�熺郴缁熻皟鐢ㄧ殑EINTR鍒ゆ柇
             goto again;
         }else{
             cd_perr_exit("cd_read error");

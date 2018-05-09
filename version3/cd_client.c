@@ -7,44 +7,44 @@
 
 /*
  * DESCRIPTION:
- * µ¥½ø³ÌµÄ¿Í»§¶Ë½»»¥£¬²»ÄÜ¿ªÆô¶à¸ö¿Í»§¶Ë¡£ÏÂ¸ö°æ±¾½«Ìí¼Ó¶à½ø³Ì
+ * å•è¿›ç¨‹çš„å®¢æˆ·ç«¯äº¤äº’ï¼Œä¸èƒ½å¼€å¯å¤šä¸ªå®¢æˆ·ç«¯ã€‚ä¸‹ä¸ªç‰ˆæœ¬å°†æ·»åŠ å¤šè¿›ç¨‹
  */
 
-#define SERV_PORT 9999 //¶¨Òå·şÎñÆ÷¶Ë¿Ú
-#define SIZEBUF 1024 //buf´óĞ¡ ×î´ó1500
+#define SERV_PORT 9999 //å®šä¹‰æœåŠ¡å™¨ç«¯å£
+#define SIZEBUF 1024 //bufå¤§å° æœ€å¤§1500
 #define SERV_IP "127.0.0.1"
 
 int main(int argc, char *argv[]){
 
-    /*¶¨ÒåÊ¹ÓÃÖĞµÄ±äÁ¿*/
-    int sfd;                                    //¿Í»§¶ËµÄsocketÃèÊö·û
-    char buf[SIZEBUF];                          //¶ÁÈ¡Ğ´ÈëbufµÄ´óĞ¡
-    int len;                                    //¶ÁÈ¡³¤¶È
-    struct sockaddr_in serv_addr, cli_addr;     //¿Í»§¶ËºÍ·şÎñÆ÷¶Ëbind½á¹¹Ìå
-    char clie_ip[SIZEBUF], serv_ip[SIZEBUF];    //±£´æ´òÓ¡ĞÅÏ¢ipµÄ×Ö·ûÊı×é
+    /*å®šä¹‰ä½¿ç”¨ä¸­çš„å˜é‡*/
+    int sfd;                                    //å®¢æˆ·ç«¯çš„socketæè¿°ç¬¦
+    char buf[SIZEBUF];                          //è¯»å–å†™å…¥bufçš„å¤§å°
+    int len;                                    //è¯»å–é•¿åº¦
+    struct sockaddr_in serv_addr, cli_addr;     //å®¢æˆ·ç«¯å’ŒæœåŠ¡å™¨ç«¯bindç»“æ„ä½“
+    char clie_ip[SIZEBUF], serv_ip[SIZEBUF];    //ä¿å­˜æ‰“å°ä¿¡æ¯ipçš„å­—ç¬¦æ•°ç»„
 
-    /*´´½¨socketÃèÊö·û*/
-    sfd = socket(AF_INET, SOCK_STREAM, 0);      //×îºóÒ»¸ö²ÎÊı0£¬ÄÚºË»á×Ô¶¯ÍÆÑİ³öÊ¹ÓÃµÄĞ­Òé
+    /*åˆ›å»ºsocketæè¿°ç¬¦*/
+    sfd = socket(AF_INET, SOCK_STREAM, 0);      //æœ€åä¸€ä¸ªå‚æ•°0ï¼Œå†…æ ¸ä¼šè‡ªåŠ¨æ¨æ¼”å‡ºä½¿ç”¨çš„åè®®
     if(sfd == -1){
         perror("fail to create socket");
         exit(1);
     }
 
-    /*°ó¶¨·şÎñÆ÷µØÖ·½á¹¹*/
-    socklen_t serv_len;                         //½á¹¹Ìå³¤¶È
-    serv_len = sizeof(serv_addr);               //»ñÈ¡½á¹¹Ìå³¤¶È
-    memset(&serv_addr, 0, serv_len);            //Çå¿Õ½á¹¹Ìå
-    serv_addr.sin_family = AF_INET;             //Ê¹ÓÃµÄĞ­Òé×å
-    inet_pton(AF_INET, SERV_IP, &serv_addr.sin_addr.s_addr);  //Ö¸¶¨IP ×Ö·û´®ÀàĞÍ×ª»»ÎªÍøÂç×Ö½ÚĞò ²Î3:´«³ö²ÎÊı
-    serv_addr.sin_port = htons(SERV_PORT);      //Ö¸¶¨¶Ë¿Ú ±¾µØ×ªÍøÂç×Ö½ÚĞò
+    /*ç»‘å®šæœåŠ¡å™¨åœ°å€ç»“æ„*/
+    socklen_t serv_len;                         //ç»“æ„ä½“é•¿åº¦
+    serv_len = sizeof(serv_addr);               //è·å–ç»“æ„ä½“é•¿åº¦
+    memset(&serv_addr, 0, serv_len);            //æ¸…ç©ºç»“æ„ä½“
+    serv_addr.sin_family = AF_INET;             //ä½¿ç”¨çš„åè®®æ—
+    inet_pton(AF_INET, SERV_IP, &serv_addr.sin_addr.s_addr);  //æŒ‡å®šIP å­—ç¬¦ä¸²ç±»å‹è½¬æ¢ä¸ºç½‘ç»œå­—èŠ‚åº å‚3:ä¼ å‡ºå‚æ•°
+    serv_addr.sin_port = htons(SERV_PORT);      //æŒ‡å®šç«¯å£ æœ¬åœ°è½¬ç½‘ç»œå­—èŠ‚åº
 
-    /*¸ù¾İµØÖ·½á¹¹Á´½ÓÖ¸¶¨·şÎñÆ÷½ø³Ì*/
+    /*æ ¹æ®åœ°å€ç»“æ„é“¾æ¥æŒ‡å®šæœåŠ¡å™¨è¿›ç¨‹*/
     if(connect(sfd, (struct sockaddr *) &serv_addr, serv_len) == -1){
         perror("fail to create socket");
         exit(1);
     }
 
-    /*´òÓ¡Ò»Ğ©½»»¥ĞÅÏ¢*/
+    /*æ‰“å°ä¸€äº›äº¤äº’ä¿¡æ¯*/
     printf("client IP:%s\tport:%d\t%d\n",
            inet_ntop(AF_INET, &cli_addr.sin_addr.s_addr, clie_ip, sizeof(clie_ip)),
            ntohs(cli_addr.sin_port), sfd);
@@ -52,19 +52,19 @@ int main(int argc, char *argv[]){
            inet_ntop(AF_INET, &serv_addr.sin_addr.s_addr, serv_ip, sizeof(serv_ip)),
            ntohs(serv_addr.sin_port), sfd);
 
-    /*¶ÁĞ´ÎÄ¼şÃèÊö·û*/
+    /*è¯»å†™æ–‡ä»¶æè¿°ç¬¦*/
 
     while (1) {
-        /*´Ó±ê×¼ÊäÈë»ñÈ¡Êı¾İ*/
+        /*ä»æ ‡å‡†è¾“å…¥è·å–æ•°æ®*/
         fgets(buf, sizeof(buf), stdin);
-        /*½«Êı¾İĞ´¸ø·şÎñÆ÷*/
+        /*å°†æ•°æ®å†™ç»™æœåŠ¡å™¨*/
         write(sfd, buf, strlen(buf));
-        /*´Ó·şÎñÆ÷¶Á»Ø×ª»»ºóÊı¾İ*/
+        /*ä»æœåŠ¡å™¨è¯»å›è½¬æ¢åæ•°æ®*/
         len = read(sfd, buf, sizeof(buf));
-        /*Ğ´ÖÁ±ê×¼Êä³ö*/
+        /*å†™è‡³æ ‡å‡†è¾“å‡º*/
         write(STDOUT_FILENO, buf, len);
     }
-    /*¹Ø±ÕÁ´½Ó*/
+    /*å…³é—­é“¾æ¥*/
     close(sfd);
     return 0;
 }

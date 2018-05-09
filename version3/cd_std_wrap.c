@@ -2,7 +2,7 @@
 #include <errno.h>
 #include <stdlib.h>
 
-/*常用功能函数封装*/
+/*甯哥敤鍔熻兘鍑芥暟灏佽*/
 
 void cd_perr_exit(const char *s)
 {

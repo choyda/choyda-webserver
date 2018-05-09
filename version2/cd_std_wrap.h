@@ -1,6 +1,7 @@
-#ifndef       __CD_STD_WRAP_H_
+#ifndef      __CD_STD_WRAP_H_
 #define      __CD_STD_WRAP_H_
 
-void cd_perr_exit(const char *);
+void unix_error(const char *);
+pid_t Fork();
 
 #endif

@@ -8,18 +8,18 @@
 #include <signal.h>
 #include <pthread.h>
 
-//×Ô¼º¶¨ÒåµÄº¯Êı¿âÍ·ÎÄ¼ş
+//è‡ªå·±å®šä¹‰çš„å‡½æ•°åº“å¤´æ–‡ä»¶
 #include "cd_sock_wrap.h"
 #include "cd_io_wrap.h"
 #include "cd_std_wrap.h"
 
-/**** ¶àÏß³Ì ****/
-/*¶àÏß³Ì¿Í»§¶Ë½»»¥£¬¿ÉÒÔÍ¬Ê±Ö§³Ö¶à¸ö¿Í»§¶ËÁ¬½Ó*/
+/**** å¤šçº¿ç¨‹ ****/
+/*å¤šçº¿ç¨‹å®¢æˆ·ç«¯äº¤äº’ï¼Œå¯ä»¥åŒæ—¶æ”¯æŒå¤šä¸ªå®¢æˆ·ç«¯è¿æ¥*/
 
-#define SERV_PORT 9999 //¶¨Òå·şÎñÆ÷¶Ë¿Ú
-#define SIZEBUF 1024 //¶ÁÈ¡buf´óĞ¡
+#define SERV_PORT 9999 //å®šä¹‰æœåŠ¡å™¨ç«¯å£
+#define SIZEBUF 1024 //è¯»å–bufå¤§å°
 
-struct pth_st_info{                     //¶¨ÒåÒ»¸ö½á¹¹Ìå, ½«µØÖ·½á¹¹¸úcfdÀ¦°ó
+struct pth_st_info{                     //å®šä¹‰ä¸€ä¸ªç»“æ„ä½“, å°†åœ°å€ç»“æ„è·Ÿcfdæ†ç»‘
     struct sockaddr_in cli_addr;
     int cfd;
 };
@@ -28,24 +28,24 @@ void *pth_act(void *args)
 {
     int n,i;
     struct pth_st_info *pt_st = (struct pth_st_info*)args;
-    char buf[SIZEBUF];              //¶ÁÈ¡»º³åÇø´óĞ¡
+    char buf[SIZEBUF];              //è¯»å–ç¼“å†²åŒºå¤§å°
     char inet_len[INET_ADDRSTRLEN];      //#define INET_ADDRSTRLEN 16
 
     while (1) {
-        n = cd_read(pt_st->cfd, buf, SIZEBUF);                     //¶Á¿Í»§¶Ë
+        n = cd_read(pt_st->cfd, buf, SIZEBUF);                     //è¯»å®¢æˆ·ç«¯
         if (n == 0) {
             printf("client %d closed...\n", pt_st->cfd);
-            break;                                              //Ìø³öÑ­»·,¹Ø±Õcfd
+            break;                                              //è·³å‡ºå¾ªç¯,å…³é—­cfd
         }
         printf("received from %s at PORT %d\n",
                inet_ntop(AF_INET, &(*pt_st).cli_addr.sin_addr, inet_len, sizeof(inet_len)),
-               ntohs((*pt_st).cli_addr.sin_port));                 //´òÓ¡¿Í»§¶ËĞÅÏ¢(IP/PORT)
+               ntohs((*pt_st).cli_addr.sin_port));                 //æ‰“å°å®¢æˆ·ç«¯ä¿¡æ¯(IP/PORT)
 
         for (i = 0; i < n; i++)
-            buf[i] = toupper(buf[i]);                           //Ğ¡Ğ´-->´óĞ´
+            buf[i] = toupper(buf[i]);                           //å°å†™-->å¤§å†™
 
-        cd_write(STDOUT_FILENO, buf, n);                           //Ğ´³öÖÁÆÁÄ»
-        cd_write(pt_st->cfd, buf, n);                              //»ØĞ´¸ø¿Í»§¶Ë
+        cd_write(STDOUT_FILENO, buf, n);                           //å†™å‡ºè‡³å±å¹•
+        cd_write(pt_st->cfd, buf, n);                              //å›å†™ç»™å®¢æˆ·ç«¯
     }
     cd_close(pt_st->cfd);
 
@@ -54,36 +54,36 @@ void *pth_act(void *args)
 
 int main(int argc, char *argv[]){
 
-    /*¶¨ÒåÊ¹ÓÃÖĞµÄ±äÁ¿*/
-    int sfd, cfd;                               //·şÎñÆ÷¶ËºÍ¿Í»§¶ËµÄsocketÃèÊö·û
-    int i=0;                                    //i´´½¨Ïß³ÌµÄ¸öÊı
-    struct sockaddr_in serv_addr, cli_addr;     //¿Í»§¶ËºÍ·şÎñÆ÷¶Ëbind½á¹¹Ìå
-    char clie_ip[SIZEBUF], serv_ip[SIZEBUF];    //±£´æ´òÓ¡ĞÅÏ¢ipµÄ×Ö·ûÊı×é
-    pthread_t tid;                              //Ïß³Ìid
-    struct pth_st_info pth_st[256];                      //¸ù¾İ×î´óÏß³ÌÊı´´½¨½á¹¹ÌåÊı×é.
+    /*å®šä¹‰ä½¿ç”¨ä¸­çš„å˜é‡*/
+    int sfd, cfd;                               //æœåŠ¡å™¨ç«¯å’Œå®¢æˆ·ç«¯çš„socketæè¿°ç¬¦
+    int i=0;                                    //iåˆ›å»ºçº¿ç¨‹çš„ä¸ªæ•°
+    struct sockaddr_in serv_addr, cli_addr;     //å®¢æˆ·ç«¯å’ŒæœåŠ¡å™¨ç«¯bindç»“æ„ä½“
+    char clie_ip[SIZEBUF], serv_ip[SIZEBUF];    //ä¿å­˜æ‰“å°ä¿¡æ¯ipçš„å­—ç¬¦æ•°ç»„
+    pthread_t tid;                              //çº¿ç¨‹id
+    struct pth_st_info pth_st[256];                      //æ ¹æ®æœ€å¤§çº¿ç¨‹æ•°åˆ›å»ºç»“æ„ä½“æ•°ç»„.
 
-    /*´´½¨socketÃèÊö·û*/
-    sfd = cd_socket(AF_INET, SOCK_STREAM, 0);      //×îºóÒ»¸ö²ÎÊı0£¬ÄÚºË»á×Ô¶¯ÍÆÑİ³öÊ¹ÓÃµÄĞ­Òé
+    /*åˆ›å»ºsocketæè¿°ç¬¦*/
+    sfd = cd_socket(AF_INET, SOCK_STREAM, 0);      //æœ€åä¸€ä¸ªå‚æ•°0ï¼Œå†…æ ¸ä¼šè‡ªåŠ¨æ¨æ¼”å‡ºä½¿ç”¨çš„åè®®
 
-    /*¶Ë¿Ú¸´ÓÃ£¬TIME_WAITµÈ´ıÎÊÌâ*/
+    /*ç«¯å£å¤ç”¨ï¼ŒTIME_WAITç­‰å¾…é—®é¢˜*/
     cd_port_reuse(sfd);
 
-    /*°ó¶¨·şÎñÆ÷µØÖ·½á¹¹*/
-    socklen_t serv_len, cli_len;                //½á¹¹Ìå³¤¶È
-    serv_len = sizeof(serv_addr);               //»ñÈ¡½á¹¹Ìå³¤¶È
-    memset(&serv_addr, 0, serv_len);            //Çå¿Õ½á¹¹Ìå
-    serv_addr.sin_family = AF_INET;             //Ê¹ÓÃµÄĞ­Òé×å
-    serv_addr.sin_addr.s_addr = INADDR_ANY;     //±¾»úµÄÈÎºÎÍø¿¨
-    serv_addr.sin_port = htons(SERV_PORT);      //³ÌĞò¶Ë¿ÚºÅ£¬±¾µØ×ªÍøÂç×Ö½ÚĞò¡¾Îª0£¬ÔòÏµÍ³×Ô¶¯·ÖÅä£¬Ê¹ÓÃgetsocknameº¯ÊıÅäºÏ¡¿
+    /*ç»‘å®šæœåŠ¡å™¨åœ°å€ç»“æ„*/
+    socklen_t serv_len, cli_len;                //ç»“æ„ä½“é•¿åº¦
+    serv_len = sizeof(serv_addr);               //è·å–ç»“æ„ä½“é•¿åº¦
+    memset(&serv_addr, 0, serv_len);            //æ¸…ç©ºç»“æ„ä½“
+    serv_addr.sin_family = AF_INET;             //ä½¿ç”¨çš„åè®®æ—
+    serv_addr.sin_addr.s_addr = INADDR_ANY;     //æœ¬æœºçš„ä»»ä½•ç½‘å¡
+    serv_addr.sin_port = htons(SERV_PORT);      //ç¨‹åºç«¯å£å·ï¼Œæœ¬åœ°è½¬ç½‘ç»œå­—èŠ‚åºã€ä¸º0ï¼Œåˆ™ç³»ç»Ÿè‡ªåŠ¨åˆ†é…ï¼Œä½¿ç”¨getsocknameå‡½æ•°é…åˆã€‘
 
-    /*³õÊ¼»¯Ò»¸öµØÖ·½á¹¹ man 7 ip ²é¿´¶ÔÓ¦ĞÅÏ¢*/
+    /*åˆå§‹åŒ–ä¸€ä¸ªåœ°å€ç»“æ„ man 7 ip æŸ¥çœ‹å¯¹åº”ä¿¡æ¯*/
     cd_bind(sfd, (struct sockaddr *)&serv_addr, serv_len);
 
-    /*Éè¶¨Á´½ÓÉÏÏŞ,×¢Òâ´Ë´¦²»×èÈû*/
-    cd_listen(sfd, 10);                         //Í¬Ò»Ê±¿ÌÔÊĞíÏò·şÎñÆ÷·¢ÆğÁ´½ÓÇëÇóµÄÊıÁ¿
+    /*è®¾å®šé“¾æ¥ä¸Šé™,æ³¨æ„æ­¤å¤„ä¸é˜»å¡*/
+    cd_listen(sfd, 10);                         //åŒä¸€æ—¶åˆ»å…è®¸å‘æœåŠ¡å™¨å‘èµ·é“¾æ¥è¯·æ±‚çš„æ•°é‡
 
 
-    /*´òÓ¡Ò»Ğ©½»»¥ĞÅÏ¢*/
+    /*æ‰“å°ä¸€äº›äº¤äº’ä¿¡æ¯*/
     printf("client IP:%s\tport:%d\t%d\n",
            inet_ntop(AF_INET, &cli_addr.sin_addr.s_addr, clie_ip, sizeof(clie_ip)),
            ntohs(cli_addr.sin_port), cfd);
@@ -92,15 +92,15 @@ int main(int argc, char *argv[]){
            ntohs(serv_addr.sin_port), sfd);
 
     while (1) {
-        cfd = cd_accept(sfd, (struct sockaddr *)&cli_addr, &cli_len); //ctrl+c ×¢ÒâECONNABORTEDÕâ¸ö´íÎó
-        pth_st[i].cli_addr = cli_addr;              //¿Í»§¶ËĞÅÏ¢ºÍÃèÊö·û°ó¶¨µ½Ò»¸ö×Ô¶¨ÒåµÄ½á¹¹Ìå£¬µ±×÷²ÎÊı´«¸øÏß³Ì
+        cfd = cd_accept(sfd, (struct sockaddr *)&cli_addr, &cli_len); //ctrl+c æ³¨æ„ECONNABORTEDè¿™ä¸ªé”™è¯¯
+        pth_st[i].cli_addr = cli_addr;              //å®¢æˆ·ç«¯ä¿¡æ¯å’Œæè¿°ç¬¦ç»‘å®šåˆ°ä¸€ä¸ªè‡ªå®šä¹‰çš„ç»“æ„ä½“ï¼Œå½“ä½œå‚æ•°ä¼ ç»™çº¿ç¨‹
         pth_st[i].cfd = cfd;
 
-        /* ´ïµ½Ïß³Ì×î´óÊıÊ±£¬pthread_create³ö´í´¦Àí, Ôö¼Ó·şÎñÆ÷ÎÈ¶¨ĞÔ*/
+        /* è¾¾åˆ°çº¿ç¨‹æœ€å¤§æ•°æ—¶ï¼Œpthread_createå‡ºé”™å¤„ç†, å¢åŠ æœåŠ¡å™¨ç¨³å®šæ€§*/
         pthread_create(&tid, NULL, pth_act, (void*)&pth_st[i]);
-        pthread_detach(tid);                      //×ÓÏß³Ì·ÖÀë,·ÀÖ¹½©Ïß³Ì²úÉú,Ò²¿ÉÒÔÓÃpthread_join»ØÊÕ
+        pthread_detach(tid);                      //å­çº¿ç¨‹åˆ†ç¦»,é˜²æ­¢åƒµçº¿ç¨‹äº§ç”Ÿ,ä¹Ÿå¯ä»¥ç”¨pthread_joinå›æ”¶
         i++;
-        if(255 == i){ //256¸öÊÇ×Ô¼ºÉèÖÃµÄ£¬Ò²¿ÉÒÔÊ¹ÓÃÏµÍ³Ä¬ÈÏÖµ£¬ Ò²¿ÉÒÔÓÃulimit -s Ö¸¶¨
+        if(255 == i){ //256ä¸ªæ˜¯è‡ªå·±è®¾ç½®çš„ï¼Œä¹Ÿå¯ä»¥ä½¿ç”¨ç³»ç»Ÿé»˜è®¤å€¼ï¼Œ ä¹Ÿå¯ä»¥ç”¨ulimit -s æŒ‡å®š
             cd_perr_exit("pthread max error");
         }
     }

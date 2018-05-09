@@ -8,62 +8,62 @@
 
 /*
  * DESCRIPTION:
- * LinuxÃüÁîĞĞÏÂµ¥½ø³Ì¿Í»§¶ËºÍ·şÎñÆ÷¶Ë½»»¥£¬²»ÄÜ¿ªÆô¶à¸ö¿Í»§¶Ë¡£
+ * Linuxå‘½ä»¤è¡Œä¸‹å•è¿›ç¨‹å®¢æˆ·ç«¯å’ŒæœåŠ¡å™¨ç«¯äº¤äº’ï¼Œå®ç°å›æ˜¾åŠŸèƒ½ï¼Œä¸èƒ½å¼€å¯å¤šä¸ªå®¢æˆ·ç«¯ã€‚
  */
 
-#define SERV_PORT 9999 //¶¨Òå·şÎñÆ÷¶Ë¿Ú
+#define SERV_PORT 9999 //å®šä¹‰æœåŠ¡å™¨ç«¯å£
 
 int main(int argc, char *argv[]){
 
-    /*¶¨ÒåÊ¹ÓÃÖĞµÄ±äÁ¿*/
-    int sfd, cfd;                               //·şÎñÆ÷¶ËºÍ¿Í»§¶ËµÄsocketÃèÊö·û
-    char buf[BUFSIZ];                           //¶ÁÈ¡Ğ´ÈëµÄbuf
-    int len, i;                                 //¶ÁÈ¡³¤¶ÈºÍÑ­»·Òò×Ói
-    struct sockaddr_in serv_addr, cli_addr;     //¿Í»§¶ËºÍ·şÎñÆ÷¶Ëbind½á¹¹Ìå
-    char cli_ip[BUFSIZ], serv_ip[BUFSIZ];       //±£´æ´òÓ¡ĞÅÏ¢ipµÄ×Ö·ûÊı×é
+    /*å®šä¹‰ä½¿ç”¨ä¸­çš„å˜é‡*/
+    int sfd, cfd;                               //æœåŠ¡å™¨ç«¯å’Œå®¢æˆ·ç«¯çš„socketæè¿°ç¬¦
+    char buf[BUFSIZ];                           //è¯»å–å†™å…¥çš„buf
+    int len, i;                                 //è¯»å–é•¿åº¦å’Œå¾ªç¯å› å­i
+    struct sockaddr_in serv_addr, cli_addr;     //å®¢æˆ·ç«¯å’ŒæœåŠ¡å™¨ç«¯bindç»“æ„ä½“
+    char cli_ip[BUFSIZ], serv_ip[BUFSIZ];       //ä¿å­˜æ‰“å°ä¿¡æ¯ipçš„å­—ç¬¦æ•°ç»„
 
-    /*´´½¨socketÃèÊö·û*/
-    sfd = socket(AF_INET, SOCK_STREAM, 0);      //×îºóÒ»¸ö²ÎÊı0£¬ÄÚºË»á×Ô¶¯ÍÆÑİ³öÊ¹ÓÃµÄĞ­Òé
+    /*åˆ›å»ºsocketæè¿°ç¬¦*/
+    sfd = socket(AF_INET, SOCK_STREAM, 0);      //æœ€åä¸€ä¸ªå‚æ•°0ï¼Œå†…æ ¸ä¼šè‡ªåŠ¨æ¨æ¼”å‡ºä½¿ç”¨çš„åè®®
     if(sfd == -1){
         perror("fail to create socket");
         exit(1);
     }
 
-    /*¶Ë¿Ú¸´ÓÃ£¬TIME_WAITµÈ´ıÎÊÌâ*/
+    /*ç«¯å£å¤ç”¨ï¼ŒTIME_WAITç­‰å¾…é—®é¢˜*/
     int opt = 1;
     if(setsockopt(sfd, SOL_SOCKET, SO_REUSEADDR, (const void *)&opt, sizeof(opt)) == -1){
         perror("fail to setsockopt socket");
         exit(1);
     }
 
-    /*°ó¶¨·şÎñÆ÷µØÖ·½á¹¹*/
-    socklen_t serv_len, cli_len;                //½á¹¹Ìå³¤¶È
-    serv_len = sizeof(serv_addr);               //»ñÈ¡½á¹¹Ìå³¤¶È
-    memset(&serv_addr, 0, serv_len);            //Çå¿Õ½á¹¹Ìå
-    serv_addr.sin_family = AF_INET;             //Ê¹ÓÃµÄĞ­Òé×å
-    serv_addr.sin_addr.s_addr = INADDR_ANY;     //±¾»úµÄÈÎºÎÍø¿¨
-    serv_addr.sin_port = htons(SERV_PORT);      //³ÌĞò¶Ë¿ÚºÅ£¬±¾µØ×ªÍøÂç×Ö½ÚĞò¡¾Îª0£¬ÔòÏµÍ³×Ô¶¯·ÖÅä£¬Ê¹ÓÃgetsocknameº¯ÊıÅäºÏ¡¿
+    /*ç»‘å®šæœåŠ¡å™¨åœ°å€ç»“æ„*/
+    socklen_t serv_len, cli_len;                //ç»“æ„ä½“é•¿åº¦
+    serv_len = sizeof(serv_addr);               //è·å–ç»“æ„ä½“é•¿åº¦
+    memset(&serv_addr, 0, serv_len);            //æ¸…ç©ºç»“æ„ä½“
+    serv_addr.sin_family = AF_INET;             //ä½¿ç”¨çš„åè®®æ—
+    serv_addr.sin_addr.s_addr = INADDR_ANY;     //æœ¬æœºçš„ä»»ä½•ç½‘å¡
+    serv_addr.sin_port = htons(SERV_PORT);      //ç¨‹åºç«¯å£å·ï¼Œæœ¬åœ°è½¬ç½‘ç»œå­—èŠ‚åºã€ä¸º0ï¼Œåˆ™ç³»ç»Ÿè‡ªåŠ¨åˆ†é…ï¼Œä½¿ç”¨getsocknameå‡½æ•°é…åˆã€‘
 
-    /*³õÊ¼»¯Ò»¸öµØÖ·½á¹¹*/
+    /*åˆå§‹åŒ–ä¸€ä¸ªåœ°å€ç»“æ„*/
     if(bind(sfd, (struct sockaddr *)&serv_addr, serv_len) == -1){
         perror("fail to bind socket");
         exit(1);
     }
 
-    /*Éè¶¨Á´½ÓÉÏÏŞ,×¢Òâ´Ë´¦²»×èÈû*/
-    if(listen(sfd, 10) == -1){                   //Í¬Ò»Ê±¿ÌÔÊĞíÏò·şÎñÆ÷·¢ÆğÁ´½ÓÇëÇóµÄÊıÁ¿
+    /*è®¾å®šé“¾æ¥ä¸Šé™,æ³¨æ„æ­¤å¤„ä¸é˜»å¡*/
+    if(listen(sfd, 10) == -1){                   //åŒä¸€æ—¶åˆ»å…è®¸å‘æœåŠ¡å™¨å‘èµ·é“¾æ¥è¯·æ±‚çš„æ•°é‡
         perror("fail to listen socket");
         exit(1);
     }
 
-    /*»ñÈ¡ÒÑ¾­Èı´ÎÎÕÊÖ³É¹¦µÄÇëÇó£¬²ÎÊı1ÊÇsfd; ²Î2´«³ö²ÎÊı, ²Î3´«Èë´«Èë²ÎÊı, È«²¿ÊÇclient¶ËµÄ²ÎÊı*/
-    cli_len = sizeof(cli_addr);                  //»ñÈ¡¿Í»§¶Ë½á¹¹Ìå´óĞ¡
-    if((cfd = accept(sfd, (struct sockaddr *)&cli_addr, &cli_len)) == -1){  //¼àÌı¿Í»§¶ËÁ´½Ó, »á×èÈû
+    /*è·å–å·²ç»ä¸‰æ¬¡æ¡æ‰‹æˆåŠŸçš„è¯·æ±‚ï¼Œå‚æ•°1æ˜¯sfd; å‚2ä¼ å‡ºå‚æ•°, å‚3ä¼ å…¥ä¼ å…¥å‚æ•°, å…¨éƒ¨æ˜¯clientç«¯çš„å‚æ•°*/
+    cli_len = sizeof(cli_addr);                  //è·å–å®¢æˆ·ç«¯ç»“æ„ä½“å¤§å°
+    if((cfd = accept(sfd, (struct sockaddr *)&cli_addr, &cli_len)) == -1){  //ç›‘å¬å®¢æˆ·ç«¯é“¾æ¥, ä¼šé˜»å¡
         perror("fail to bind socket");
         exit(1);
     }
 
-    /*´òÓ¡Ò»Ğ©½»»¥ĞÅÏ¢*/
+    /*æ‰“å°ä¸€äº›äº¤äº’ä¿¡æ¯*/
     printf("client IP:%s\tport:%d\t%d\n",
            inet_ntop(AF_INET, &cli_addr.sin_addr.s_addr, cli_ip, sizeof(cli_ip)),
            ntohs(cli_addr.sin_port), cfd);
@@ -71,22 +71,22 @@ int main(int argc, char *argv[]){
            inet_ntop(AF_INET, &serv_addr.sin_addr.s_addr, serv_ip, sizeof(serv_ip)),
            ntohs(serv_addr.sin_port), sfd);
 
-    /*¶ÁĞ´ÎÄ¼şÃèÊö·û*/
+    /*è¯»å†™æ–‡ä»¶æè¿°ç¬¦*/
     while(1){
-        /*¶ÁÈ¡¿Í»§¶Ë·¢ËÍÊı¾İ*/
+        /*è¯»å–å®¢æˆ·ç«¯å‘é€æ•°æ®*/
         len = read(cfd, buf, sizeof(BUFSIZ));
         write(STDOUT_FILENO, buf, len);
 
-        /*´¦Àí¿Í»§¶ËÊı¾İ*/
+        /*å¤„ç†å®¢æˆ·ç«¯æ•°æ®*/
         for(i=0; i<len; i++){
             buf[i] = toupper(buf[i]);
         }
 
-        /*´¦ÀíÍêÊı¾İ»ØĞ´¸ø¿Í»§¶Ë*/
+        /*å¤„ç†å®Œæ•°æ®å›å†™ç»™å®¢æˆ·ç«¯*/
         write(cfd, buf, len);
     }
 
-    /*¹Ø±ÕÁ´½Ó*/
+    /*å…³é—­é“¾æ¥*/
     close(sfd);
     close(cfd);
     return 0;

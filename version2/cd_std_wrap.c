@@ -1,11 +1,23 @@
 #include <stdio.h>
 #include <errno.h>
 #include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
 
-/*常用功能函数封装*/
+/*甯哥敤鍔熻兘鍑芥暟灏佽*/
 
-void cd_perr_exit(const char *s)
+void unix_error(const char *msg)
 {
-    perror(s);
-    exit(-1);
+    fprintf(stderr, "%s: %s\n", msg, strerror(errno));
+    exit(0);
+}
+
+pid_t Fork(){
+
+    pid_t pid;
+    if((pid = fork()) < 0){
+        unix_error("fork error:");
+    }
+    return pid;
+
 }
