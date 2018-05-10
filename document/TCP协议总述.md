@@ -100,11 +100,13 @@ TCP断开连接时，会有四次挥手过程，如下图所示，wireshark截�
 第二次挥手:  
 服务器收到FIN后，发回一个ACK(标志位ACK=1),确认序号为收到的序号加1，即X=X+1=2。序号为收到的确认序号=Z。
 ![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview/tcp-overview11.jpg)
-![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview/tcp-overview21.jpg)
+![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview/tcp-overview21.jpg)  
+
 第三次挥手:
 服务器关闭与客户端的连接，发送一个FIN。标志位FIN和ACK置为1，序号为Y=1，确认序号为X=2。
 ![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview/tcp-overview12.jpg)
-![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview/tcp-overview22.jpg)
+![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview/tcp-overview22.jpg)  
+
 第四次挥手:
 客户端收到服务器发送的FIN之后，发回ACK确认(标志位ACK=1),确认序号为收到的序号加1，即Y+1=2。序号为收到的确认序号X=2。
 ![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview/tcp-overview13.jpg)
