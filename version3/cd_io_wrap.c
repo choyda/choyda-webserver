@@ -2,8 +2,17 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <errno.h>
+#include <string.h>
 
 #include "cd_std_wrap.h"
+
+typedef struct {
+    int rio_fd;                //与内部缓冲区关联的描述符
+    int rio_cnt;               //缓冲区中剩下的字节数
+    char *rio_bufptr;          //指向缓冲区中下一个未读的字节
+    char rio_buf[RIO_BUFSIZE];
+} rio_t;
+
 
 ssize_t Read(int fd, void *ptr, size_t nbytes)
 {
@@ -138,4 +147,52 @@ ssize_t cd_read_line(int fd, void *vptr, size_t maxlen)
     *ptr  = 0;
 
     return n;
+}
+
+/*
+ * typedef struct {
+    int rio_fd;                //与内部缓冲区关联的描述符
+    int rio_cnt;               //缓冲区中剩下的字节数
+    char *rio_bufptr;          //指向缓冲区中下一个未读的字节
+    char rio_buf[RIO_BUFSIZE];
+} rio_t;
+ *
+ */
+
+void rio_readinitb(rio_t *rp, int fd)
+{
+    rp->rio_fd = fd;
+    rp->rio_cnt = 0;
+    rp->rio_bufptr = rp->rio_buf; // rio_buf 4096大，内存块的首地址， rio_bufptr下一个没读的地址， 都初始化为首地址，也就是从第一个读
+}
+
+static ssize_t rio_read(rio_t *rp, char *usrbuf, size_t n) {
+
+    int cnt;
+
+    while (rp->rio_cnt <= 0) {  /*如果为0 表示缓冲区中没有字节*/
+
+        /*一次性从tcp缓冲区中读4096个字节，文件块的大小。效率更高。有可能返回的字节数少于要读的字节数*/
+        rp->rio_cnt = read(rp->rio_fd, rp->rio_buf, sizeof(rp->rio_buf));
+
+        if (rp->rio_cnt < 0) { //如果返回-1表示出错
+            if (errno != EINTR) { //如果是EINTR 表示信号终端，重新while，软启动read函数
+                return -1;  //如果不是EINTR 表示read系统本身出错返回-1
+            }
+        } else if (rp->rio_cnt == 0) {  /*EOF 如果是0，在网络终端下，表示客户端关闭了，直接返回0，如果没有数据就会阻塞*/
+            return 0;
+        } else {
+            rp->rio_bufptr = rp->rio_buf; /* 如果都没有问题，把rio_buf的首地址，赋值给第一个要读的字符地址 */
+        }
+    }
+
+    /* Copy min(n, rp->rio_cnt) bytes from internal buf to user buf */
+    cnt = n;
+    if (rp->rio_cnt < n) {
+        cnt = rp->rio_cnt; //如果实际读的字节数量小于要读的数量，赋值给cnt，便于内存cpy用
+    }
+    memcpy(usrbuf, rp->rio_bufptr, cnt); // 从第一个字节的地址cpy cnt个字符到usrbuf中。
+    rp->rio_bufptr += cnt; //指针后移，如果所有数据都读取完毕，重新while读取4096字节到结构体的那个首地址，这个地址也会初始化为首地址
+    rp->rio_cnt -= cnt;
+    return cnt;
 }
