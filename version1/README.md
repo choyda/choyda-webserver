@@ -127,7 +127,6 @@ struct fdtable {
 
 
 ![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/file_struct2.gif)   
-配图来自：http://www.51testing.com/html/00/n-832100-2.html
 
 -----------
 bind函数：  
