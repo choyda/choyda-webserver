@@ -62,11 +62,11 @@ wireshark捕获到的TCP包中的每个字段如下图所示：
 
 
 
-### 四.建立连接三次握手
-TCP建立连接时，会有三次握手过程，如下图所示，wireshark截获到了三次握手的三个数据包。第四个包才是http的，说明http的确是使用TCP建立连接的
+### 四.TCP建立连接三次握手
+TCP建立连接时，会有三次握手过程，如下图所示，wireshark截获到了三次握手的三个数据包。第四个包才是http的，说明http的确是使用TCP建立连接的。
+![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview/tcp-overview5.jpg)
 ![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview/tcp-overview14.jpg)
 
-下面来逐步分析三次握手过程。
 
 第一次握手:  
 客户端向服务器发送连接请求包，标志位SYN（同步序号）置为1，序号为X=0。
@@ -85,23 +85,29 @@ TCP建立连接时，会有三次握手过程，如下图所示，wireshark截�
 ![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview/tcp-overview28.jpg)
 
 
-通过Wireshark来理解TCP 4次挥手过程
-
+### 五.TCP断开连接四次挥手
  
-TCP断开连接时，会有四次挥手过程，如下图所示，wireshark截获到了四次挥手的四个数据包。
-![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview9.jpg)
+TCP断开连接时，会有四次挥手过程，如下图所示，wireshark截获到了四次挥手的四个数据包。  
+![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview/tcp-overview9.jpg)
+![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview/tcp-overview18.jpg)
 
-下面来逐步分析四次挥手过程。
 
 第一次挥手:  
 客户端给服务器发送TCP包，用来关闭客户端到服务器的数据传送。将标志位FIN和ACK置为1，序号为X=1，确认序号为Z=1。
-![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview10.jpg)
+![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview/tcp-overview10.jpg)
+![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview/tcp-overview20.jpg)
+
 第二次挥手:  
 服务器收到FIN后，发回一个ACK(标志位ACK=1),确认序号为收到的序号加1，即X=X+1=2。序号为收到的确认序号=Z。
-![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview11.jpg)
+![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview/tcp-overview11.jpg)
+![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview/tcp-overview21.jpg)
 第三次挥手:
 服务器关闭与客户端的连接，发送一个FIN。标志位FIN和ACK置为1，序号为Y=1，确认序号为X=2。
-![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview12.jpg)
+![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview/tcp-overview12.jpg)
+![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview/tcp-overview22.jpg)
 第四次挥手:
 客户端收到服务器发送的FIN之后，发回ACK确认(标志位ACK=1),确认序号为收到的序号加1，即Y+1=2。序号为收到的确认序号X=2。
-![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview13.jpg)
+![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview/tcp-overview13.jpg)
+![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview/tcp-overview23.jpg)
+
+配图借鉴：http://www.360doc.com/content/14/1201/16/7669533_429603672.shtml
