@@ -6,7 +6,7 @@
 * 下图给了一个四层和七层的对比模型：具体的每层主要用途，请自行百度或Google，由于篇幅过长这里就不阐述了。
 
 
-![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview/tcp-overview15.png) 
+![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview/tcp-overview15-1.png) 
 
 
 ### 二. TCP协议  
