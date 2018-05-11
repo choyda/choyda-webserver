@@ -16,7 +16,7 @@
 3. 下图给了一个TCP/IP四层和OSI七层的对比模型：具体的每层主要用途，请自行百度或Google，由于篇幅过长这里就不阐述了。
 
 
-<div align=center>
+<div>
 <img src="https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview/tcp-overview15-5.jpg" /> 
 </div>
 
@@ -185,7 +185,7 @@ TCP断开连接时，会有四次挥手过程，如下图所示，wireshark截�
 ### 六.最后在给两个整体的流程图
 #### TCP连接断开：  
 
-<div  align=center>
+<div>
 <img src="https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview/tcp-overview29.jpg" width="520" height="620" /> 
 </div>
 
