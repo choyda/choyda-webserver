@@ -5,7 +5,8 @@ TCP三次握手建立连接，四次握手断开连接，基本socket函数背�
 
 #### 一些重要概念：
 避免不了俗套，先从三次握手四次断开开始，整体上有一个了解。  
-请移步：[TCP/IP协议总述]
+请移步：[TCP/IP协议总述]  
+
 [TCP/IP协议总述]:https://github.com/choyda/choyda-webserver/blob/master/document/TCP%E5%8D%8F%E8%AE%AE%E6%80%BB%E8%BF%B0.md
 
 
