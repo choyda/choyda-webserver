@@ -139,11 +139,16 @@ TCP断开连接时，会有四次挥手过程，如下图所示，wireshark截�
 
 ### 六.最后在给两个整体的流程图
 #### TCP连接断开：  
- ![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview/tcp-overview29.jpg)  
+
+<div align=center>
+<img src="https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview/tcp-overview29.jpg" width="520" height="620" /> 
+</div>
 
 #### TCP协议传输示意图（逐层封装，逐层解封）：  
- ![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview/tcp-overview15-22.jpeg) 
 
+<div align=center>
+<img src="https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview/tcp-overview15-22.jpeg" width="720" height="420" /> 
+</div>
 
 
 说不如写，写不如画。  
