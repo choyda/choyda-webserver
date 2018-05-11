@@ -6,7 +6,7 @@
 * 下图给了一个四层和七层的对比模型：具体的每层主要用途，请自行百度或Google，由于篇幅过长这里就不阐述了。
 
 
-![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview/tcp-overview15-1.png) 
+ ![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview/tcp-overview15-5.jpg) 
 
 
 ### 二. TCP协议  
@@ -16,7 +16,7 @@ TCP是一种面向连接（连接导向）的、可靠的基于字节流的传�
 
 #### TCP的特点有：
 
-* TCP是面向连接的运输层协议  
+1. TCP是面向连接的运输层协议  
 2. 每一条TCP连接只能有两个端点，每一条TCP连接只能是点对点的
 3. TCP提供可靠交付的服务
 4. TCP提供全双工通信。数据在两个方向上独立的进行传输。因此，连接的每一端必须保持每个方向上的传输数据序号。
@@ -122,4 +122,10 @@ TCP断开连接时，会有四次挥手过程，如下图所示，wireshark截�
 ![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview/tcp-overview13.jpg)
 ![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview/tcp-overview23.jpg)
 
+### 六.最后在给两个整体的流程图
+####TCP连接断开：  
+![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview/tcp-overview29.jpg)  
+
+####TCP协议传输示意图：  
+![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview/tcp-overview15-2.png) 
 部分配图借鉴：http://www.360doc.com/content/14/1201/16/7669533_429603672.shtml
