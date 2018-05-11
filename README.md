@@ -23,7 +23,7 @@
 
 版本大纲：
 
-* [version1]：Linux命令行模式下Client和Server通信，单进程。
+* [version1]：Linux命令行模式下Client和Server通信，单进程。[代码完成，文档ing]
 
 * [version2]：实现多进程，同时可以处理多个客户端同时请求。
 * [version3]：对一些库函数出错处理进行封装，自定义各种wrap.c文件。
