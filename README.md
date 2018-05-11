@@ -25,7 +25,7 @@
 
 * [version1]：Linux命令行模式下Client和Server通信，单进程。[代码完成，文档ing]
 
-* [version2]：实现多进程，同时可以处理多个客户端同时请求。
+* [version2]：实现多进程，同时可以处理多个客户端同时请求。[代码优化中，文档Not]
 * [version3]：对一些库函数出错处理进行封装，自定义各种wrap.c文件。
 * [version4]：实现多线程处理通信。
 * [version5]：改变Server服务器为守护进程，不依赖于终端。
