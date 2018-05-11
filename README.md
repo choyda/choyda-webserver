@@ -10,9 +10,9 @@
 
 >  因本人所学有限，代码或解释可能会有偏差和误解，希望大家秉承交流，指导的心态能给出宝贵的意见、建议。同时也希望能够帮助正在学习这方面内容的同学，大家共同进步。    
 
-> PS：添加扩展功能可能会随着开发和迭代有所调整。目前先给出一个大纲。  
-![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/other/xiao.png)  
+> PS：添加扩展功能可能会随着开发和迭代有所调整。目前先给出一个大纲。
 
+>![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/other/xiao.png) 写文档比写代码难！！
 
 一些概念的文档：  
 
