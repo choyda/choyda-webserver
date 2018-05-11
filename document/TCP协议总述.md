@@ -61,9 +61,8 @@ TCP是一种面向连接（连接导向）的、可靠的基于字节流的传�
 
 wireshark抓到的包与对应的协议层如下图所示：  
 
-<div align=center>
-<img src="https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview/tcp-overview2.jpg" width="720" height="420" /> 
-</div>
+
+ ![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview/tcp-overview2.jpg)
 
 
 1. Frame:   物理层的数据帧概况  
@@ -73,12 +72,12 @@ wireshark抓到的包与对应的协议层如下图所示：
 5. Hypertext Transfer Protocol:  应用层的信息，此处是HTTP协议。  
 
 
-  
+ 
 wireshark捕获到的TCP包中的每个字段如下图所示：  
 
- ![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview/tcp-overview4.jpg)
-
-
+<div align=center>
+<img src="https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview/tcp-overview4.jpg" width="720" height="420" /> 
+</div>
 
 ### 四.TCP建立连接三次握手
 TCP建立连接时，会有三次握手过程，如下图所示，wireshark截获到了三次握手的三个数据包。第四个包才是http的，说明http的确是使用TCP建立连接的。  
