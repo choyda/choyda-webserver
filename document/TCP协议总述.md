@@ -16,9 +16,9 @@
 3. 下图给了一个TCP/IP四层和OSI七层的对比模型：具体的每层主要用途，请自行百度或Google，由于篇幅过长这里就不阐述了。
 
 
-<div>
-<img src="https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview/tcp-overview15-5.jpg" /> 
-</div>
+	<div>
+	<img src="https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview/tcp-overview15-5.jpg" /> 
+	</div>
 
 
 ### 二. TCP协议  
