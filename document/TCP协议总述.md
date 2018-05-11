@@ -8,15 +8,15 @@
 >以后会在相应的版本和文档中，针对每一点给出一个详细的梳理，由浅入深。
 
 ### 一. TCP/IP协议族(簇)
-* TCP/IP协议簇：是Internet的基础，TCP/IP是一组协议的代名词，包括许多别的协议，组成了TCP/IP协议簇。其中比较重要的有SLIP协议、PPP协议、IP协议、ICMP协议、ARP协议、TCP协议、UDP协议、FTP协议、DNS协议、SMTP协议等。
+TCP/IP协议簇：是Internet的基础，TCP/IP是一组协议的代名词，包括许多别的协议，组成了TCP/IP协议簇。其中比较重要的有SLIP协议、PPP协议、IP协议、ICMP协议、ARP协议、TCP协议、UDP协议、FTP协议、DNS协议、SMTP协议等。
   
-* TCP/IP协议模型： OSI的七层参考模型也叫做传统的开放式系统互连参考模型，其中每一层执行某一特定任务。该模型的目的是使各种硬件在相同的层次上相互通信。而TCP/IP通讯协议采用了4层的层级结构，每一层都呼叫它的下一层所提供的网络来完成自己的需求。
+TCP/IP协议模型： OSI的七层参考模型也叫做传统的开放式系统互连参考模型，其中每一层执行某一特定任务。该模型的目的是使各种硬件在相同的层次上相互通信。而TCP/IP通讯协议采用了4层的层级结构，每一层都呼叫它的下一层所提供的网络来完成自己的需求。
 
 
-* 下图给了一个TCP/IP四层和OSI七层的对比模型：具体的每层主要用途，请自行百度或Google，由于篇幅过长这里就不阐述了。
+下图给了一个TCP/IP四层和OSI七层的对比模型：具体的每层主要用途，请自行百度或Google，由于篇幅过长这里就不阐述了。
 
 
- ![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview/tcp-overview15-5.jpg) 
+![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview/tcp-overview15-5.jpg) 
 
 
 ### 二. TCP协议  
