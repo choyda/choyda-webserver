@@ -4,10 +4,12 @@ TCP三次握手建立连接，四次握手断开连接，基本socket函数背�
 主要考虑一些新手朋友，不会牵扯太深层的东西，用到的地方我会点出来，以后会单独针对每个知识点整理出详细解析的文章，或者请读者借阅其他资料(man文档，APUE，UNP，深入理解计算机操作系统、TCP/IP协议详解等) 感谢！  
 
 #### 一些重要概念：
-避免不了俗套，先从三次握手四次断开开始，整体上有一个了解。
+避免不了俗套，先从三次握手四次断开开始，整体上有一个了解。  
+请移步：[TCP/IP协议总述]
+[TCP/IP协议总述]:https://github.com/choyda/choyda-webserver/blob/master/document/TCP%E5%8D%8F%E8%AE%AE%E6%80%BB%E8%BF%B0.md
+
 
 Linux文件类型：  
-
 
 <table>
 	<th width='400px'>文件类型标识</th>
@@ -55,12 +57,13 @@ Linux文件类型：
 socket究其本质是内核借助缓冲区形成的伪文件。(套接字的内核实现较为复杂，不宜在学习初期深入学习)。  
 套接字出现必然是一对(插头和插座)，套接字是全双工(电话)，每一个套接字(sfd或者cfd)对应发送和接受两个缓冲区。
 
-![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/socket1.png)
+
+![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/version1/socket1.png)
 
 
 socket在通信接口中的位置：
 
-![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/socket2.png)
+![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/version1/socket2.png)
 
 
 #### 一些用到的主要函数：   
@@ -97,7 +100,7 @@ struct task_struct {
 	…
 };
 ```
-![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/file_struct.gif)  
+![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/version1/file_struct.gif)  
 其中files_struct结构体的成员files为打开文件描述符表，定义如下：
 
 ```
@@ -108,7 +111,8 @@ struct files_struct {
 	struct file __rcu * fd_array[NR_OPEN_DEFAULT]; //文件描述符和文件的对应关系
 };
 ```
-![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/file_struct1.gif)    
+
+![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/version1/file_struct1.gif)    
 其成员fdtab为关键数据成员，定义如下：
 
 ```
@@ -126,7 +130,7 @@ struct fdtable {
 ```
 
 
-![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/file_struct2.gif)   
+![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/version1/file_struct2.gif)   
 
 -----------
 bind函数：  

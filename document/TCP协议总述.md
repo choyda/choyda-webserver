@@ -112,4 +112,4 @@ TCP断开连接时，会有四次挥手过程，如下图所示，wireshark截�
 ![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview/tcp-overview13.jpg)
 ![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview/tcp-overview23.jpg)
 
-配图借鉴：http://www.360doc.com/content/14/1201/16/7669533_429603672.shtml
+部分配图借鉴：http://www.360doc.com/content/14/1201/16/7669533_429603672.shtml
