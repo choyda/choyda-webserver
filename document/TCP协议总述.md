@@ -61,7 +61,9 @@ TCP是一种面向连接（连接导向）的、可靠的基于字节流的传�
 
 wireshark抓到的包与对应的协议层如下图所示：  
 
- ![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview/tcp-overview2.jpg)
+<div align=center>
+<img src="https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview/tcp-overview2.jpg" width="720" height="420" /> 
+</div>
 
 
 1. Frame:   物理层的数据帧概况  
