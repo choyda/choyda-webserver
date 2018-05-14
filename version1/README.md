@@ -6,8 +6,12 @@
 >主要考虑一些新手朋友，不会牵扯太深层的东西，用到的地方我会点出来，以后会单独针对每个知识点整理出详细解析的文章，或者请读者借阅其他资料(man文档，APUE，UNP，深入理解计算机操作系统、TCP/IP协议详解等) 感谢！  
 
 #### 一些重要概念：
-避免不了俗套，先从三次握手四次断开开始，整体上有一个了解。  
-请移步：[TCP/IP协议总述]  
+按照惯例，先从三次握手四次断开开始，整体上有一个了解。  
+请移步：[TCP/IP协议总述]    
+
+SOCKET模型创建流程图：  
+![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/version1/socket3.png)
+
 
 [TCP/IP协议总述]:https://github.com/choyda/choyda-webserver/blob/master/document/TCP%E5%8D%8F%E8%AE%AE%E6%80%BB%E8%BF%B0.md
 
@@ -137,16 +141,46 @@ struct fdtable {
 
 -----------
 bind函数：  
-bind把一个本地协议地址(主机地址/端口号)赋予一个套接字。从上面的socket函数我们了解到，socket创建返回来套接字(文件描述符)和FIFO，管道，终端，磁盘上的文件或者什么其他的东西等创建文件描述符没有什么区别，但是调用bind()函数之后，为这个套接字关联一个相应地址，发送到这个地址的数据可以通过该套接字读取与使用。  
+从上面的socket函数我们了解到，socket创建返回来套接字(文件描述符)和FIFO，管道，终端，磁盘上的文件或者什么其他的东西等创建文件描述符没有什么区别，服务器程序所监听的网络地址和端口号通常是固定不变的，客户端程序得知服务器程序的地址和端口号后就可以向服务器发起连接，因此服务器需要调用bind绑定一个固定的网络地址和端口号。
 
 ``` 
 #include<sys/types.h>  宏定义头文件  
 #include<sys/socket.h> 函数头文件
 int bind(int sockfd, const sockaddr *addr, socklen_t addrlen)
 ```
+
 sockfd：socket函数创建出来的套接字(文件描述符)。  
-addr：关联套接字的详细结构体信息。
-addrlen：结构体的长度。
+addr：构造出IP地址加端口号。  
+addrlen：结构体的长度。  
+返回值：成功返回0，失败返回-1, 设置errno。  
+
+重要结构：sockaddr  
+strcut sockaddr 很多网络编程函数诞生早于IPv4协议，那时候都使用的是sockaddr结构体,为了向前兼容，现在sockaddr退化成了（void *）的作用，传递一个地址给函数，至于这个函数是sockaddr\_in还是sockaddr\_in6，由地址族确定，然后函数内部再强制类型转化为所需的地址类型。
+
+![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/version1/bind-1.png)
+
+bind()的作用是将参数sockfd和addr绑定在一起，使sockfd这个用于网络通讯的文件描述符监听addr所描述的地址和端口号。前面讲过，struct sockaddr *是一个通用指针类型，addr参数实际上可以接受多种协议的sockaddr结构体，而它们的长度各不相同，所以需要第三个参数addrlen指定结构体的长度。如：
 
 
-备注：bind()函数并不是总是需要调用的，只有用户进程想与一个具体的地址或端口相关联的时候才需要调用这个函数。如果用户进程没有这个需要，那么程序可以依赖内核的自动的选址机制来完成自动地址选择，而不需要调用bind()函数，同时也避免不必要的复杂度。在一般情况下，对于服务器进程问题需要调用bind()函数，对于客户进程则不需要调用bind()函数。
+
+```
+/*绑定服务器地址结构*/
+struct sockaddr_in serv_addr;		       	//定义结构体
+socklen_t serv_len;				           	//结构体长度
+serv_len = sizeof(serv_addr);               //获取结构体长度
+memset(&serv_addr, 0, serv_len);            //清空结构体
+serv_addr.sin_family = AF_INET;             //使用的协议族
+serv_addr.sin_addr.s_addr = INADDR_ANY;     //本机的任何网卡
+serv_addr.sin_port = htons(SERV_PORT);      //程序端口号，本地转网络字节序【为0，则系统自动分配，使用getsockname函数配合】
+
+/*初始化一个地址结构*/
+if(bind(sfd, (struct sockaddr *)&serv_addr, serv_len) == -1){
+	perror("fail to bind socket");
+	exit(1);
+}
+```
+
+首先将整个结构体清零，然后设置地址类型为AF\_INET，网络地址为INADDR_ANY，这个宏表示本地的任意IP地址，因为服务器可能有多个网卡，每个网卡也可能绑定多个IP地址，这样设置可以在所有的IP地址上监听，直到与某个客户端建立了连接时才确定下来到底用哪个IP地址，端口号为SERV\_PORT。
+
+-----------  
+
