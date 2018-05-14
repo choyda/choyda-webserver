@@ -166,7 +166,7 @@ bind()的作用是将参数sockfd和addr绑定在一起，使sockfd这个用于�
 ```
 /*绑定服务器地址结构*/
 struct sockaddr_in serv_addr;               //定义结构体
-socklen_t serv_len;							    //结构体长度
+socklen_t serv_len;							//结构体长度
 serv_len = sizeof(serv_addr);               //获取结构体长度
 memset(&serv_addr, 0, serv_len);            //清空结构体
 serv_addr.sin_family = AF_INET;             //使用的协议族
