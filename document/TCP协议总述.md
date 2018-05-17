@@ -172,7 +172,6 @@ TCP断开连接时，会有四次挥手过程，如下图所示，wireshark截�
 <img src="https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview/tcp-overview22.jpg" /> 
 </div>
 
-
 第四次挥手:
 客户端收到服务器发送的FIN之后，发回ACK确认(标志位ACK=1),确认序号为收到的序号加1，即Y+1=2。序号为收到的确认序号X=2。  
 
@@ -182,6 +181,15 @@ TCP断开连接时，会有四次挥手过程，如下图所示，wireshark截�
 <div>
 <img src="https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview/tcp-overview23.jpg" /> 
 </div>
+
+  
+#### 注意：四次断开还有一种情况
+![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview/tcp-overview30.jpg)
+在Version1的代码中，通过抓包进行分析，断开的包只有三个。  
+是因为，缓冲区没有数据了，服务器没有数据要发送给客户端了，内核把第2和第3次合并成1次发送。  
+如果有数据的话，会先发送第2次，然后等数据发送完毕了， 在发送第3次请求断开链接。
+
+
 
 ### 六.最后在给两个整体的流程图
 #### TCP连接断开：  

@@ -75,6 +75,9 @@ int main(int argc, char *argv[]){
     while(1){
         /*读取客户端发送数据*/
         len = read(cfd, buf, sizeof(BUFSIZ));
+        if(len == 0){  // 客户端关闭了
+            break;      //注意CLOSE_WAIT
+        }
         write(STDOUT_FILENO, buf, len);
 
         /*处理客户端数据*/
@@ -87,7 +90,7 @@ int main(int argc, char *argv[]){
     }
 
     /*关闭链接*/
-    close(sfd);
     close(cfd);
+    close(sfd);
     return 0;
 }
