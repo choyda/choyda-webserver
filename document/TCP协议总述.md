@@ -130,9 +130,9 @@ TCP建立连接时，会有三次握手过程，如下图所示，wireshark截�
 </div>
 
 
-### 五.TCP断开连接四次挥手
+### 五.TCP断开连接四次挥手 
  
-TCP断开连接时，会有四次挥手过程，如下图所示，wireshark截获到了四次挥手的四个数据包。    
+TCP断开连接时，会有四次挥手过程，如下图所示，wireshark截获到了四次挥手的四个数据包。（还会有3个包的情况，下面解释）    
 
 <div>
 <img src="https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/tcp-overview/tcp-overview9.jpg" /> 
