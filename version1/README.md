@@ -7,13 +7,13 @@
 
 #### 一些重要概念：
 按照惯例，先从三次握手四次断开开始，整体上有一个了解。  
-请移步：[TCP/IP协议三次建立四次断开]    
+请移步：[TCP协议通信三次建立四次断开]    
 
 SOCKET模型创建流程图：  
 ![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/version1/socket3.png)
 
 
-[TCP/IP协议三次建立四次断开]:https://github.com/choyda/choyda-webserver/blob/master/document/TCP/IP协议三次建立四次断开.md
+[TCP协议通信三次建立四次断开]:https://github.com/choyda/choyda-webserver/blob/master/document/TCP协议通信三次建立四次断开.md
 
 
 Linux文件类型：  

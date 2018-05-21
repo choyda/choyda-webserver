@@ -19,7 +19,7 @@
 
 一些概念的文档：  
 
-* [TCP/IP协议三次建立四次断开]
+* [TCP协议通信三次建立四次断开]
 
 版本大纲：
 
@@ -39,7 +39,7 @@
 * [version13]：多路IO复用(select、poll、epoll)，用epoll实现，性能最高。
 * [version14]：引入线程池。
 
-[TCP/IP协议三次建立四次断开]:https://github.com/choyda/choyda-webserver/blob/master/document/TCP/IP协议三次建立四次断开.md
+[TCP协议通信三次建立四次断开]:https://github.com/choyda/choyda-webserver/blob/master/document/TCP协议通信三次建立四次断开.md
 
 [version1]: https://github.com/choyda/choyda-webserver/tree/master/version1  "version1"
 [version2]: https://github.com/choyda/choyda-webserver/tree/master/version2  "version2"
