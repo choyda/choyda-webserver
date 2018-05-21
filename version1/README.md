@@ -13,7 +13,7 @@ SOCKET模型创建流程图：
 ![](https://raw.githubusercontent.com/choyda/picture/master/choyda-webserver-picture/version1/socket3.png)
 
 
-[TCP/IP协议三次建立四次断开]:https://github.com/choyda/choyda-webserver/blob/master/document/TCP%E5%8D%8F%E8%AE%AE%E6%80%BB%E8%BF%B0.md
+[TCP/IP协议三次建立四次断开]:https://github.com/choyda/choyda-webserver/blob/master/document/TCP/IP协议三次建立四次断开.md
 
 
 Linux文件类型：  
